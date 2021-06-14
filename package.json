@@ -1,0 +1,29 @@
+{
+  "name": "movie-db",
+  "version": "1.0.0",
+  "description": "or CMDB for short",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HajarMsheik/Movie-DB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HajarMsheik/Movie-DB/issues"
+  },
+  "homepage": "https://github.com/HajarMsheik/Movie-DB#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", // this should be there
+    "dev": "nodemon index.js"
+},
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
