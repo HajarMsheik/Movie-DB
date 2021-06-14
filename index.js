@@ -80,3 +80,14 @@ app.get('/movies/read/by-title',function (req, res) {
         res.send({status:200, data:movies});
     })
 ///////////////Step 7 - READ ONE////////////////////////////////////////
+app.get('/movies/read/:id',function (req, res) {
+    movlen=movies.length;
+     let nb=req.params.id;
+     if(nb>movlen){ 
+              res.send(  {status:404, error:true, message:'the movie <ID> does not exist'});
+     }
+     else{
+        res.send({status:200, data:movies[nb-1]});
+
+     }         
+})
