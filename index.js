@@ -1,3 +1,4 @@
+const { query } = require('express');
 var express = require('express');
  let date= new Date();
  let timenow= date.getHours()+":"+date.getMinutes();
@@ -15,5 +16,19 @@ app.get('/test', (req, res) => res.send({status:200, message:"ok"}));
 
 
 app.get('/time', (req, res) => res.send({status:200, message:timenow}));  
-/////////////////////////////////////////
+//////////Step 4 - Let's complicate the API/////////
+app.get('/hello/:Id', function(req, res) {
+    res.send( "status:200, message:Hello " +req.params.Id);
+  });
+app.get('/hello/', function(req, res) {
+    res.send( "status:200, message:Hello " );
+  });
+
+  app.get('/search?',function (req, res) {
+      const {s} = req.query;
+      if(s=== ""){  
+        res.send( "status:500, error:true, message:you have to provide a search");}
+      else  { 
+      res.send( "status:200, message:'ok', data:" + req.query.s);}
+})
 
