@@ -2,6 +2,13 @@ const { query } = require('express');
 var express = require('express');
  let date= new Date();
  let timenow= date.getHours()+":"+date.getMinutes();
+ const movies = [
+    { title: 'Jaws', year: 1975, rating: 8 },
+    { title: 'Avatar', year: 2009, rating: 7.8 },
+    { title: 'Brazil', year: 1985, rating: 8 },
+    { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
+]
+
 const app = express();
  ////////Create a simple express server///////////
 app.listen(3000, () =>
@@ -31,4 +38,15 @@ app.get('/hello/', function(req, res) {
       else  { 
       res.send( "status:200, message:'ok', data:" + req.query.s);}
 })
+//////////////Step 5 - Set up the basis for CRUD//////////////////////
+app.get('/movies/read',function (req, res) {
+    movLen = movies.length;
+    text = "<ul>";
+    for (i = 0; i < movLen; i++) {
+      text += "<li>" + movies[i].title + "</li>";
+    }
+    text += "</ul>";
+    
 
+    res.send( "status:200, data:" + text);}  )
+/////////////////////////////////////////////////////////////////////////
