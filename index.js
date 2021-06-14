@@ -49,4 +49,34 @@ app.get('/movies/read',function (req, res) {
     
 
     res.send( "status:200, data:" + text);}  )
-/////////////////////////////////////////////////////////////////////////
+////////////////Step 6 - SEARCH/////////////////////////////////////////////
+app.get('/movies/read/by-date',function (req, res) {
+        movies.sort(function(a, b) {
+            var dateA = new Date(a.year), 
+            dateB = new Date(b.year);
+            return dateA - dateB;
+              
+        });
+        res.send({status:200, data:movies});
+    })
+
+app.get('/movies/read/by-rate',function (req, res) {
+        movies.sort(function(a, b) {
+            var RateA = a.rating, 
+            RateB = b.rating;
+            return RateA - RateB;
+              
+        });
+        res.send({status:200, data:movies});
+    })
+
+app.get('/movies/read/by-title',function (req, res) {
+    movies.sort(function(a, b) {
+        var titleA = a.title.toLowerCase(), titleB = b.title.toLowerCase();
+        if (titleA < titleB) return -1;
+        if (titleA > titleB) return 1;
+        return 0;
+    });
+        res.send({status:200, data:movies});
+    })
+///////////////Step 7 - READ ONE////////////////////////////////////////
