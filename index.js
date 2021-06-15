@@ -119,4 +119,43 @@ app.get('/movies/add?',function (req, res) {
               }
       }
 })
-///////////////////////////////////////////////////////////////
+//////////////////////Step 9 - DELETE///////////////////////////// 
+app.get('/movies/delete/:id', function(req, res) {
+  if( req.query.id <=0 || req.params.id > movies.length){
+    res.send(  {status:404, error:true, message:'the movie <ID>'+req.params.id +'does not exist'});
+  }
+  else{
+      movies.splice(req.params.id -1, 1);
+      res.send(  {status:200, data:movies});
+  }
+}); 
+/////////////////////Step 10 - UPDATE//////////////////////////////////
+  //  app.get('/movies/update/:Id?',function (req, res) {
+    
+  //     let  Idselected,titleselected,yearselected,ratingselected;
+  //     if(req.params.Id){ 
+  //       Idselected=req.params.Id-1 ;
+  //     }
+  //     if(req.query.titleselected){ 
+  //       titleselected=req.query.titleselected;
+  //       movies[Idselected].title=titleselected;
+  //     }
+  //     if(req.query.yearselected){ 
+  //       yearselected=req.query.yearselected;
+  //       movies[Idselected].year=yearselected;
+  //     }
+  //     if(req.query.ratingselected){ 
+  //       ratingselected=req.query.ratingselected
+  //       movies[Idselected].rating=ratingselected;
+  //     }
+    
+  //      res.send({status:200, data:movies});     
+  //  })
+   /////////////////////////////////////////////////////////
+
+
+
+
+
+
+
