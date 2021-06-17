@@ -1,5 +1,16 @@
 const { query } = require('express');
 var express = require('express');
+var mongoose=require('mongoose');
+var bodyParser=require('body-parser');
+require('dotenv/config');
+
+
+const Post=require('./Post');
+const Users=require('./models/Users');
+
+const app = express();
+app.use(express.json());
+
  let date= new Date();
  let timenow= date.getHours()+":"+date.getMinutes();
  const movies = [
@@ -9,7 +20,9 @@ var express = require('express');
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ]
 
-const app = express();
+
+
+
  ////////Create a simple express server///////////
 app.listen(3000, () =>
   console.log('Example app listening on port 3000!'),
@@ -130,28 +143,74 @@ app.get('/movies/delete/:id', function(req, res) {
   }
 }); 
 /////////////////////Step 10 - UPDATE//////////////////////////////////
-  //  app.get('/movies/update/:Id?',function (req, res) {
+   app.get('/movies/update/:Id?',function (req, res) {
     
-  //     let  Idselected,titleselected,yearselected,ratingselected;
-  //     if(req.params.Id){ 
-  //       Idselected=req.params.Id-1 ;
-  //     }
-  //     if(req.query.titleselected){ 
-  //       titleselected=req.query.titleselected;
-  //       movies[Idselected].title=titleselected;
-  //     }
-  //     if(req.query.yearselected){ 
-  //       yearselected=req.query.yearselected;
-  //       movies[Idselected].year=yearselected;
-  //     }
-  //     if(req.query.ratingselected){ 
-  //       ratingselected=req.query.ratingselected
-  //       movies[Idselected].rating=ratingselected;
-  //     }
+     let  Idselected,titleselected,yearselected,ratingselected;
+       if(req.params.Id){ 
+         Idselected=req.params.Id ;
+       }
+       if(req.query.titleselected){ 
+        titleselected=req.query.titleselected;
+       movies[Idselected-1].title=titleselected;
+      }
+       if(req.query.yearselected){ 
+         yearselected=req.query.yearselected;
+         movies[Idselected-1].year=yearselected;
+      }
+       if(req.query.ratingselected){ 
+         ratingselected=req.query.ratingselected;
+         movies[Idselected-1].rating=ratingselected;
+    }
     
-  //      res.send({status:200, data:movies});     
-  //  })
-   /////////////////////////////////////////////////////////
+        res.send({status:200, data:movies});     
+    })
+   ////////////////////step 11 & 12 /////////////////////////////
+   //adding new data through post man and save it in database
+   //delete and update is the same
+   app.post('/movies/add',  (req,res)=>{
+    
+    
+    try {
+        const newMovie = new Post({
+            title: req.body.title,
+            year: req.body.year ,
+            rating: req.body.rating  ,
+        });
+        console.log(Post.title);
+        // newMovie  = await newMovie.save()
+        //res.status(201).json(newMovie)
+    } catch(err){
+        res.status(400).json({message: err.message })
+
+    }
+});
+  /////////////////////////////////////////////////////////////
+   //connecting to database
+   mongoose.connect(process.env.DB_c0nnection,{useNewUrlParser: true,useUnifiedTopology: true},
+   ()=>
+   console.log("connected to db!!!!") );
+
+
+ /////////////////////////part 13//////////////////////////////
+app.post('/register',(req,res)=>{
+   const user=new Users({
+      name:req.body.name,
+      pass:req.body.password
+   });
+   try{
+    //console.log("nothing saved");
+   const savedUser= user.save();
+  // console.log("nothing saved");
+   res.send(savedUser);
+
+   }
+   catch(err){
+   res.status(400).send(err);
+
+   }
+}
+)
+///////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -159,3 +218,7 @@ app.get('/movies/delete/:id', function(req, res) {
 
 
 
+
+
+
+module.exports=app;
